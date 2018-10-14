@@ -16,48 +16,67 @@ var Applicant = class {
 }
 
 var Institution = class {
-    constructor(name, location, subjects) {
+    constructor(name, location) {
         this.name = name;
         this.location = location;
-        this.subjects = subjects;
+        this.subjects = [];
         this.applicants = [];
-    }
-    addApplicant(applicant) {
-        this.applicants.push(applicant)
     }
 }
 
 var Subject = class {
     constructor(name) {
         this.name = name;
-        this.institutions = [];
+    }
+    addSubjectToInstitution(institution) {
+        institution.subjects.push(this)
     }
 }
 
-var interests
+// subjects
+var mathematics = new Subject('Mathematics')
+var design = new Subject('Design')
+var appliedArts = new Subject('Applied Arts')
+var js = new Subject('JavaScript')
+var engineering = new Subject('Engeneering')
+var science = new Subject('Science')
 
+//Applicants
 var olga = new Applicant('Olga', 'Brilova', 'Kharkiv', interests = ['Design', 'Applied Arts'])
-var elena = new Applicant('Elena', 'Volovicheva', 'Berlin', interests = ['Design', 'JS'])
-var daniel = new Applicant('Daniel', 'Jurat', 'Berlin', interests = ['JS', 'Engineering'])
+var elena = new Applicant('Elena', 'Volovicheva', 'Berlin', interests = ['Design', 'JS', 'Mathematics'])
+var daniel = new Applicant('Daniel', 'Jurat', 'Berlin', interests = ['JS', 'Engineering', 'Science'])
 var maria = new Applicant('Maria', 'Moskalenko', 'Kharkiv', interests = ['Applied Arts', 'Engineering'])
 
-var subjects;
-var schoolOfArt = new Institution ('School of Art', 'Berlin', subjects = ['Applied Arts', 'Design']) 
-var technicalCollege = new Institution ('Technical College', 'Boston', subjects = ['JS', 'Design'])
-var nasa = new Institution('NASA', 'Washington', subjects = ['Engineering', 'JS'])
+//Institutions
+var schoolOfArt = new Institution ('School of Art', 'Berlin') 
+var technicalCollege = new Institution ('Technical College', 'Boston')
+var nasa = new Institution('NASA', 'Washington')
 
-let institutions = [schoolOfArt, technicalCollege, nasa]
+//Subjects to Institutions
+mathematics.addSubjectToInstitution(technicalCollege)
+mathematics.addSubjectToInstitution(nasa)
+design.addSubjectToInstitution(technicalCollege)
+design.addSubjectToInstitution(schoolOfArt)
+appliedArts.addSubjectToInstitution(schoolOfArt)
+js.addSubjectToInstitution(technicalCollege)
+js.addSubjectToInstitution(nasa)
+engineering.addSubjectToInstitution(technicalCollege)
+engineering.addSubjectToInstitution(nasa)
+science.addSubjectToInstitution(technicalCollege)
+science.addSubjectToInstitution(nasa)
 
+//Find a match between an applicant's interests and subjects taught/trained in institutions
 function matchInternship(applicant, institution) {
     this.applicant = applicant
     this.institution = institution
     var matchingSubjects = []
 
-    applicant.interests.forEach((el1) => institution.subjects.forEach((el2) => { if(el1 == el2) { matchingSubjects.push(el1) } }))
+    applicant.interests.forEach((el1) => institution.subjects.name.forEach((el2) => { if(el1 == el2) { matchingSubjects.push(el1) } }))
 
     console.log(applicant.name + ', ' + 'The following subjects in ' + institution.name + ' ' + 'might be interesting to you: ' + matchingSubjects)
 }
 
+//Applications
 olga.applyToInternship(schoolOfArt)
 olga.applyToInternship(technicalCollege)
 elena.applyToInternship(schoolOfArt)
