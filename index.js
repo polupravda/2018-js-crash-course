@@ -1,37 +1,10 @@
 // Internship/Study exchange project.
 // Classes: Applicants, Educational Institutions, Subjects
 
-var Applicant = class {
-    constructor (name, surname, location) {
-        this.name = name;
-        this.surname = surname;
-        this.location = location;
-        this.interests = interests;
-        this.applications = [];
-    }
-    applyToInternship(institution) {
-        this.applications.push(institution);
-        institution.applicants.push(this)
-    }
-}
-
-var Institution = class {
-    constructor(name, location) {
-        this.name = name;
-        this.location = location;
-        this.subjects = [];
-        this.applicants = [];
-    }
-}
-
-var Subject = class {
-    constructor(name) {
-        this.name = name;
-    }
-    addSubjectToInstitution(institution) {
-        institution.subjects.push(this)
-    }
-}
+const Applicant = require('./applicant')
+const Institution = require('./institution')
+const Subject = require('./subject')
+const Database = require('./database')
 
 // subjects
 var mathematics = new Subject('Mathematics')
@@ -42,10 +15,10 @@ var engineering = new Subject('Engeneering')
 var science = new Subject('Science')
 
 //Applicants
-var olga = new Applicant('Olga', 'Brilova', 'Kharkiv', interests = ['Design', 'Applied Arts'])
-var elena = new Applicant('Elena', 'Volovicheva', 'Berlin', interests = ['Design', 'JS', 'Mathematics'])
-var daniel = new Applicant('Daniel', 'Jurat', 'Berlin', interests = ['JS', 'Engineering', 'Science'])
-var maria = new Applicant('Maria', 'Moskalenko', 'Kharkiv', interests = ['Applied Arts', 'Engineering'])
+var olga = new Applicant('Olga', 'Brilova', 'Kharkiv')
+var elena = new Applicant('Elena', 'Volovicheva', 'Berlin')
+var daniel = new Applicant('Daniel', 'Jurat', 'Berlin')
+var maria = new Applicant('Maria', 'Moskalenko', 'Kharkiv')
 
 //Institutions
 var schoolOfArt = new Institution ('School of Art', 'Berlin') 
@@ -65,16 +38,31 @@ engineering.addSubjectToInstitution(nasa)
 science.addSubjectToInstitution(technicalCollege)
 science.addSubjectToInstitution(nasa)
 
+//Interests to Applicants
+mathematics.addInterestToApplicant(olga)
+mathematics.addInterestToApplicant(elena)
+mathematics.addInterestToApplicant(daniel)
+design.addInterestToApplicant(olga)
+design.addInterestToApplicant(elena)
+design.addInterestToApplicant(maria)
+js.addInterestToApplicant(elena)
+js.addInterestToApplicant(daniel)
+engineering.addInterestToApplicant(elena)
+engineering.addInterestToApplicant(olga)
+science.addInterestToApplicant(daniel)
+science.addInterestToApplicant(maria)
+science.addInterestToApplicant(olga)
+
 //Find a match between an applicant's interests and subjects taught/trained in institutions
-function matchInternship(applicant, institution) {
-    this.applicant = applicant
-    this.institution = institution
-    var matchingSubjects = []
+// function matchInternship(applicant, institution) {
+//     this.applicant = applicant
+//     this.institution = institution
+//     var matchingSubjects = []
 
-    applicant.interests.forEach((el1) => institution.subjects.name.forEach((el2) => { if(el1 == el2) { matchingSubjects.push(el1) } }))
+//     applicant.interests.forEach((el1) => institution.subjects.forEach((el2) => { if(el1 == el2) { matchingSubjects.push(el1) } }))
 
-    console.log(applicant.name + ', ' + 'The following subjects in ' + institution.name + ' ' + 'might be interesting to you: ' + matchingSubjects)
-}
+//     console.log(applicant.name + ', ' + 'The following subjects in ' + institution.name + ' ' + 'might be interesting to you: ' + matchingSubjects)
+// }
 
 //Applications
 olga.applyToInternship(schoolOfArt)
@@ -85,3 +73,5 @@ elena.applyToInternship(technicalCollege)
 daniel.applyToInternship(nasa)
 maria.applyToInternship(schoolOfArt)
 maria.applyToInternship(technicalCollege)
+
+Database.save(mathematics)

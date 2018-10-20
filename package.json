@@ -1,0 +1,19 @@
+{
+  "name": "2018-js-crash-course",
+  "version": "1.0.0",
+  "description": "app that help people to find a practical learning",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/polupravda/2018-js-crash-course.git"
+  },
+  "author": "Elena Volovicheva",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/polupravda/2018-js-crash-course/issues"
+  },
+  "homepage": "https://github.com/polupravda/2018-js-crash-course#readme"
+}
