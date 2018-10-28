@@ -8,4 +8,7 @@ module.exports = class Subject {
     addInterestToApplicant(applicant) {
         applicant.interests.push(this)
     }
+    static create({ name }) {
+        return new Subject(name)
+    }
 }

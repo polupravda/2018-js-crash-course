@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/polupravda/2018-js-crash-course/issues"
   },
-  "homepage": "https://github.com/polupravda/2018-js-crash-course#readme"
+  "homepage": "https://github.com/polupravda/2018-js-crash-course#readme",
+  "dependencies": {
+    "circular-json": "^0.5.7"
+  }
 }

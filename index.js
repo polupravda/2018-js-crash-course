@@ -75,3 +75,10 @@ maria.applyToInternship(schoolOfArt)
 maria.applyToInternship(technicalCollege)
 
 Database.save(mathematics)
+Database.save(design)
+Database.save(olga)
+Database.save(maria)
+
+const loadedFile = Database.load()
+console.log(loadedFile)
+
