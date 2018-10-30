@@ -1,14 +1,10 @@
 const fs = require('fs')
 const CircularJSON = require('circular-json')
-
-
-// function save(data) {
-//         fs.writeFileSync('data.json', CircularJSON.stringify(data))
-// }
+const dbPath = `${__dirname}/data.json`
 
 const save = async(data) => {
     return new Promise((resolve, reject) => {
-        fs.writeFile('data.json', CircularJSON.stringify(data), (err) => {
+        fs.writeFile(dbPath, CircularJSON.stringify(data), (err) => {
            if (err) return reject(err)
 
            resolve()
@@ -16,31 +12,24 @@ const save = async(data) => {
     })
 }
 
-let readFile = (filename) => {
+let load = async() => {
     return new Promise((resolve, reject) => {
-        fs.readFile(filename, 'utf8', (err, contents) => {
+        fs.readFile(dbPath, 'utf8', (err, file) => {
             if (err) return reject(err)
+            const data = CircularJSON.parse(file)
 
-            resolve(contents)
+            resolve(data)
         })
     })
 }
 
-const load = async() => {
-    const loaded = await readFile('data.json').then(function(result) {
-        return result
-    })
-    return loaded
-
-}
-
-(async () => {
-    try {
-        await load()
-    } catch (e) {
-        console.log(e)
-    }
-})()
+// (async () => {
+//     try {
+//         await load()
+//     } catch (e) {
+//         console.log(e)
+//     }
+// })()
 
 module.exports = {
     save,
