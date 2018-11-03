@@ -1,10 +1,57 @@
 // Internship/Study exchange project.
 // Classes: Applicants, Educational Institutions, Subjects
 
-const Applicant = require('./applicant')
-const Institution = require('./institution')
-const Subject = require('./subject')
-const Database = require('./database')
+const Applicant = require('./models/applicant')
+const Institution = require('./models/institution')
+const Subject = require('./models/subject')
+const express = require('express')
+const app = express()
+const bodyParser = require('body-parser')
+const SubjectService = require('./services/subject-service')
+
+app.use(bodyParser.json())
+// express.static(root, [options])
+app.use(express.static('public'))
+
+app.set('view engine', 'pug')
+
+// app.get('/', async (req, res, next) => {
+//     // res.send('smth')
+//     res.send(await ApplicantService.findAll())
+// })
+
+app.get('/', async (req, res, next) => {
+    res.send(await SubjectService.findAll())
+})
+
+app.get('/subject/:id', async (req, res) => {
+    res.send(await SubjectService.find(req.subject.id))
+})
+
+app.get('/subjects/all', async (req, res, next) => {
+    const subjects = await SubjectService.findAll()
+
+    res.render('subject', { subjects: subjects })
+})
+
+app.post('/subject', async (req, res, next) => {
+    const subject = await SubjectService.add(req.body)
+    res.send(subject)
+})
+
+app.delete('/subject/:id', async (req, res, next) => {
+    await SubjectService.del(req.params.id)
+    res.send('ok!')
+})
+
+// app.delete('/subject/4', async (req, res, next) => {
+//     await SubjectService.del('4')
+//     res.send('ok!')
+// })
+
+app.listen(5000, () => {
+    console.log('Server listening')
+})
 
 // subjects
 var mathematics = new Subject('Mathematics')
@@ -26,6 +73,7 @@ var technicalCollege = new Institution ('Technical College', 'Boston')
 var nasa = new Institution('NASA', 'Washington')
 
 //Subjects to Institutions
+
 mathematics.addSubjectToInstitution(technicalCollege)
 mathematics.addSubjectToInstitution(nasa)
 design.addSubjectToInstitution(technicalCollege)
@@ -39,6 +87,7 @@ science.addSubjectToInstitution(technicalCollege)
 science.addSubjectToInstitution(nasa)
 
 //Interests to Applicants
+
 mathematics.addInterestToApplicant(olga)
 mathematics.addInterestToApplicant(elena)
 mathematics.addInterestToApplicant(daniel)
@@ -65,6 +114,7 @@ science.addInterestToApplicant(olga)
 // }
 
 //Applications
+
 olga.applyToInternship(schoolOfArt)
 olga.applyToInternship(technicalCollege)
 elena.applyToInternship(schoolOfArt)
@@ -73,12 +123,4 @@ elena.applyToInternship(technicalCollege)
 daniel.applyToInternship(nasa)
 maria.applyToInternship(schoolOfArt)
 maria.applyToInternship(technicalCollege)
-
-Database.save(mathematics)
-Database.save(design)
-Database.save(olga)
-Database.save(maria)
-
-const loadedFile = Database.load()
-console.log(loadedFile)
 

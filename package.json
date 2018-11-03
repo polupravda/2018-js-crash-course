@@ -17,6 +17,10 @@
   },
   "homepage": "https://github.com/polupravda/2018-js-crash-course#readme",
   "dependencies": {
-    "circular-json": "^0.5.7"
+    "body-parser": "^1.18.3",
+    "circular-json": "^0.5.9",
+    "express": "^4.16.4",
+    "nodemon": "^1.18.5",
+    "pug": "^2.0.3"
   }
 }
