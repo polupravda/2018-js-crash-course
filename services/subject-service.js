@@ -31,7 +31,7 @@ const add = async(subject) => {
 
 const del = async(subjectId) => {
     const allSubjects = await findAll()
-    const subjectIndex = allSubjects.findInex(p => p.id == subjectId)
+    const subjectIndex = allSubjects.findIndex(p => p.id == subjectId)
     if (subjectIndex < 0) return
 
     allSubjects.splice(subjectIndex, 1)

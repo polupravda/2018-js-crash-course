@@ -31,7 +31,7 @@ const add = async(applicant) => {
 
 const del = async(applicantId) => {
     const allApplicants = await findAll()
-    const applicantIndex = allApplicants.findInex(p => p.id == applicantId)
+    const applicantIndex = allApplicants.findIndex(p => p.id == applicantId)
     if (applicantIndex < 0) return
 
     allApplicants.splice(applicantIndex, 1)

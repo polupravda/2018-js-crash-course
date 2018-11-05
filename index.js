@@ -40,8 +40,8 @@ app.post('/subject', async (req, res, next) => {
 })
 
 app.delete('/subject/:id', async (req, res, next) => {
-    await SubjectService.del(req.params.id)
-    res.send('ok!')
+    const subject = await SubjectService.del(req.params.id)
+    res.send(subject)
 })
 
 // app.delete('/subject/4', async (req, res, next) => {
