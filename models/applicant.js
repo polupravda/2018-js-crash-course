@@ -1,25 +1,17 @@
-const Subject = require('./subject')
-const Institution = require('./institution')
+const mongoose = require('mongoose')
 
-module.exports = class Applicant {
-    constructor (name, surname, location, id) {
-        this.name = name || '';
-        this.surname = surname || '';
-        this.location = location || '';
-        this.id = id || 0;
-        this.interests = [];
-        this.applications = [];
-    }
-    applyToInternship(institution) {
-        this.applications.push(institution);
-        institution.applicants.push(this)
-    }
-    static create({ name, surname, location, id, interests, applications }) {
-        const applicant = new Applicant(name, surname, location, id)
+const ApplicantSchema = new mongoose.Schema({
+    name: String,
+    surname: String,
+    location: String,
+    interests: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Subject'
+    }],
+    applications: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Institution'
+    }]
+});
 
-        applicant.interests = interests.map(Subject.create)
-        applicant.applications = applications.map(Institution.create)
-
-        return applicant
-    }
-}
+module.exports = mongoose.model('Applicant', ApplicantSchema)

@@ -1,57 +1,57 @@
-const fs = require('fs')
 const CircularJSON = require('circular-json')
-const dbPath = `${__dirname}/../subject-database.json`
+const fs = require('fs')
+
+const InstitutionModel = require('../models/institution')
+const ApplicantModel = require('../models/applicant')
 const SubjectModel = require('../models/subject')
 
-const findAll = async() => {
-    return new Promise((resolve, reject) => {
-        fs.readFile(dbPath, 'utf8', (err, file) => {
-            if (err) return reject(err)
+async function addInstitution(subjectId, institutionId) {
+    const subject = SubjectModel.findOne({ _id: subjectId })
+    const institution = InstitutionModel.findOne({ _id: institutionId })
 
-            const subjects = CircularJSON.parse(file).map(SubjectModel.create)
-
-            resolve(subjects)
-        })
-    })    
-}
-
-const add = async(subject) => {
-    const allSubjects = await findAll()
-    const lastSubject = allSubjects[allSubjects.length - 1]
-    const lastSubjectId = lastSubject && lastSubject.id || 0
-    subject.id = lastSubjectId + 1
-
-    subject = SubjectModel.create(subject)
-    allSubjects.push(subject)
-
-    await saveAll(allSubjects)
-
+    subject.institutions.push(institution)
+    await subject.save()
     return subject
 }
 
-const del = async(subjectId) => {
-    const allSubjects = await findAll()
-    const subjectIndex = allSubjects.findIndex(p => p.id == subjectId)
-    if (subjectIndex < 0) return
+async function addApplicant(subjectId, applicantId) {
+    const subject = await SubjectModel.findOne({ _id: subjectId })
+    const applicant = await ApplicantModel.findOne({ _id: applicantId })
 
-    allSubjects.splice(subjectIndex, 1)
-
-    saveAll(allSubjects)
+    subject.applicants.push(applicant)
+    await subject.save()
+    return subject
 }
 
-const find = async(personId) => {
-    const allSubjects = await findAll()
-
-    // return allSubjects.find(p => p.id == personId)
-    return allSubjects.find(function(p) {
-        p.id == personId
-    })
+async function findAll() {
+    return SubjectModel.find()
+        .populate('institutions')
+        .populate('applicants')
 }
 
-const saveAll = async(subjects) => {
+async function add(subject) {
+    return SubjectModel.create(subject) 
+}
+
+async function del(_id) {
+    return SubjectModel.remove({ _id })
+}
+
+async function find(_id) {
+    return SubjectModel.findOne({ _id })
+        .populate('institutions')
+        .populate('applicants')
+}
+
+async function findByName(subjectName) {
+    return SubjectModel.find({ name: subjectName })
+}
+
+async function saveAll(subjects) {
     return new Promise((resolve, reject) => {
-        fs.writeFile(dbPath, CircularJSON.stringify(subjects), (err, file) => {
-            if (err) return reject(err)
+        fs.writeFile(dbPath, JSON.stringify(subjects),
+        (err, file) => {
+            if(err) return reject(err)
 
             resolve()
         })
@@ -59,8 +59,11 @@ const saveAll = async(subjects) => {
 }
 
 module.exports = {
+    addInstitution,
+    addApplicant,
     findAll,
     find,
-    add,
-    del
+    findByName,
+    del,
+    add
 }

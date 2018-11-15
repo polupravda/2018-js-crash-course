@@ -3,5 +3,4 @@ extends layout
 block content
     h1 There are #{subjects.length} subjects available:
     each subject in subjects
-        ul
-            li #{subject.name}
+        pre #{JSON.stringify(subject, null, 4)}
