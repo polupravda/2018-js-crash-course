@@ -1,0 +1,6 @@
+extends layout
+
+block content
+    h1 There are #{institutions.length} institutions available:
+    each institution in institutions
+        pre #{JSON.stringify(institution, null, 4)}

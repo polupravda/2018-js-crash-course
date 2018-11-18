@@ -1,0 +1,6 @@
+extends layout
+
+block content
+    h1 There are #{applicants.length} applicants:
+    each applicant in applicants
+        pre #{JSON.stringify(applicant, null, 4)}
