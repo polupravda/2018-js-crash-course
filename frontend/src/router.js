@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
 import Institutions from './views/Institutions.vue'
+import Institution from './views/Institution.vue'
 
 Vue.use(Router)
 
@@ -26,6 +27,11 @@ export default new Router({
       path: '/institutions',
       name: 'institutions',
       component: Institutions,
+    },
+    {
+      path: '/institution/:id',
+      name: 'institution',
+      component: Institution
     }
   ]
 })

@@ -8,7 +8,25 @@
         </div>
       </div>
     </div>
+    <!-- <div class='create-book'>
+    <div class="form-element">
+      <label>
+        Author: <input v-model="institution.name">
+      </label>
+    </div>
+    <div class="form-element">
+      <label>
+        Title: <input v-model="institution.location">
+      </label>
+    </div>
+    <button @click="createBook">
+      Add new book
+    </button>
+  </div> -->
+  <div>
+    <button @click="add">Add Institution</button>
   </div>
+</div>
 </template>
 <script>
 import { mapActions, mapState } from 'vuex';
@@ -29,7 +47,17 @@ export default {
     }),
   },
   methods: {
-    ...mapActions(['fetchInstitutions', 'addLikes'])
+    ...mapActions(['fetchInstitutions', 'addLikes', 'addInstitution']),
+    add () {
+      this.addInstitution(this.institution)
+    }
   }
 }
 </script>
+<style>
+.institutions-list {
+  display: flex;
+  width: 100vw;
+  flex-wrap: wrap;
+}
+</style>

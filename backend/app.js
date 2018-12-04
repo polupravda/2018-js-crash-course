@@ -9,6 +9,9 @@ require('./database-connection')
 
 const app = express()
 
+const cors = require('cors')
+app.use(cors())
+
 app.set('view engine', 'pug')
 app.use(bodyParser.json())
 
@@ -125,6 +128,13 @@ app.post('/institution/add-subject', async (req, res) => {
 
 app.get('/institution/:id', async (req, res) => {
     const institution = await InstitutionService.find(req.params.id)
+
+    res.render('data', { data: institution })
+})
+
+app.get('/institution/:id/json', async (req, res) => {
+    const institution = await InstitutionService.find(req.params.id)
+    if (!istitution) res.status(404)
 
     res.send(institution)
 })

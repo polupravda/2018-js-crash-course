@@ -31,8 +31,8 @@ async function findAll() {
         .populate('subjects')
 }
 
-async function add(applicant) {
-    return InstitutionModel.create(applicant)
+async function add(institution) {
+    return InstitutionModel.create(institution)
 }
 
 async function del(_id) {
